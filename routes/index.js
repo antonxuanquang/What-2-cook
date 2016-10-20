@@ -25,9 +25,9 @@ router.get('/', function(req, res) {
 
 router.get('/:id', function(req, res) {
 	var id = '' + req.params.id;
-	Dishes.find({"recipe_id" : id}).exec(function(err, docs) {
-		if (docs.length != 0) {
-			console.log(docs);
+	Dishes.findOne({"recipe_id" : id}).exec(function(err, docs) {
+		if (docs) {
+			console.log('serve dish id', id, 'to client');
 			res.send(docs);
 		} else {
 			request(format.formatGetUrl(config.baseUrl, config.apiKey, id), 
@@ -40,8 +40,7 @@ router.get('/:id', function(req, res) {
 					Dishes.create(data.recipe, function(err, dish) {
 						if (err) throw err;
 
-						console.log('Dish created');
-						console.log(dish);
+						console.log('Dish created with id:', dish.recipe_id);
 					});
 				}
 			});
