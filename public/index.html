@@ -1,14 +1,25 @@
 <!doctype html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="reciperApp">
   <head>
     <meta charset="utf-8">
     <title>Reciper</title>
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- Compiled and minified Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+    <!--Customized Stylesheet-->
+    <link rel="stylesheet" href="app.css" />
+    
+    <!-- Compiled and minified Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    
     <script src="bower_components/angular/angular.js"></script>
+    <script src="app.module.js"></script>
+    <script src="dish-list/dish-list.module.js"></script>
+    <script src="dish-list/dish-list.component.js"></script>
   </head>
   <body>
 
-    <p>Nothing here {{'yet' + '!'}}</p>
+    <dish-list></dish-list>
 
   </body>
 </html>
