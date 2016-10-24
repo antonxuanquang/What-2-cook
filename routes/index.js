@@ -13,6 +13,7 @@ router.get('/', function(req, res) {
 		'sort': headers.sort,
 		'page': headers.page,
 	};
+	
 	request(format.formatSearchUrl(config.baseUrl, config.apiKey, query), 
 		function(error, response, body) {
 		// get a request from 
@@ -40,7 +41,7 @@ router.get('/:id', function(req, res) {
 					Dishes.create(data.recipe, function(err, dish) {
 						if (err) throw err;
 
-						console.log('Dish created with id:', dish.recipe_id);
+						console.log('Dish created with id', dish.recipe_id);
 					});
 				}
 			});
