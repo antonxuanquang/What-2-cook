@@ -16,7 +16,7 @@ db.once('open', function () {
     console.log("Connected correctly to database");
 });
 
-var routes = require('./routes/index');
+var dishRouter = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/dish', dishRouter);
 app.use('/users', users);
 
 
