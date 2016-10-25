@@ -8,6 +8,7 @@ component('dishList', {
         var self = this;
         $http.get('/dish').then(function(response) {
             self.dishes = response.data.recipes;
+            console.log(self.dishes);
         });
     }]
 });

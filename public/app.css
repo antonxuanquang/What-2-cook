@@ -1,0 +1,14 @@
+.card .card-image img {
+    width: 100%;
+    max-height: 400px;
+}
+
+.card {
+    height: 500px;
+}
+
+@media screen and (min-width: 993px) {
+    .container {
+        width: 90%;
+    }
+}
