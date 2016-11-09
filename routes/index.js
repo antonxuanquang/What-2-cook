@@ -17,9 +17,14 @@ router.get('/', function(req, res) {
 	request(format.formatSearchUrl(config.baseUrl, config.apiKey, query), 
 		function(error, response, body) {
 		// get a request from 
-		if (!error && response.statusCode == 200) {
+		if (!error && response.statusCode == 200 && body.error) {
+			console.log(body)
 			var data = JSON.parse(body);
 			res.json(data);
+		} else {
+			Dishes.find({}).lean().limit(10).exec(function (err, data) {
+				res.json(data);
+			})
 		}
 	});
 });

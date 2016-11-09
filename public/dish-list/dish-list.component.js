@@ -6,8 +6,27 @@ factory('dishListService', ['$http', function($http) {
     return {
         getDish: function(req) {
             return $http(req).then(function(response) {
-                return response.data.recipes;
+                return response.data.recipes || response.data;
+            }, function(err){
+                return err;
             });
+        }
+    }
+}])
+.directive('scrollTrigger', ['$window', function($window) {
+    return {
+        link: function(scope, element, attrs) {
+            var e = jQuery(element[0]);
+            var scrollFunction = function() {
+                if (window.pageYOffset + 1000 > e.context.offsetHeight) {
+                    angular.element(document).unbind('scroll');
+                    scope.$apply(attrs.scrollTrigger);
+                    setTimeout(function() {
+                        angular.element(document).bind('scroll', scrollFunction);
+                    }, 1000);
+                }
+            };
+            angular.element(document).bind('scroll', scrollFunction);
         }
     }
 }])
@@ -29,8 +48,9 @@ factory('dishListService', ['$http', function($http) {
         self.page = req.headers.page;
 
         self.load = function() {
-            
             dishListService.getDish(req).then(function(data) {
+                console.log(data);
+                console.log(req.headers.page);
                 if (!self.dishes) self.dishes = data;
                 else {
                     data.forEach(function(element) {
@@ -38,40 +58,10 @@ factory('dishListService', ['$http', function($http) {
                     });
                 }
                 req.headers.page++;
+            }, function(err) {
+                console.log(err);
             });
         }
-
-        self.load();
-
-        
-        // var self = this;
-        // var page = 0;
-        // var dishes = [];
-
-        // self.load = function () {
-        //     console.log(page);
-        //     $http({
-        //         method: 'GET',
-        //         url: 'dish',
-        //         headers: {
-        //             query: "",
-        //             page: page
-        //         }
-        //     }).then(function(response){
-        //         if (!self.dishes) {
-        //             self.dishes = response.data.recipes;
-        //             console.log('create new dishes');
-        //         } else {
-        //             self.dishes.concat(response.data.recipes);
-        //             console.log('push array');
-        //             console.log(self.dishes);
-        //         }
-        //         page++;
-        //     }, function(error){
-        //         console.log(error);
-        //     });
-        // }
-        // self.load();
-        
+        self.load();        
     }]
 });
