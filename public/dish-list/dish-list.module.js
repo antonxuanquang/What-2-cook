@@ -1,5 +1,3 @@
 'use strict';
 
-angular.module('dishList', [
-    
-]);
+angular.module('dishList', []);
