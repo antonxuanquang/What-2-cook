@@ -21,6 +21,11 @@
     "protractor": "^4.0.9"
   },
   "devDependencies": {
+    "eslint": "^3.9.1",
+    "jasmine-core": "^2.5.2",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-jasmine": "^0.3.8",
     "mongoose": "^4.6.4",
     "request": "^2.75.0"
   }
