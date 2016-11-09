@@ -49,12 +49,10 @@ factory('dishListService', ['$http', function($http) {
 
         self.load = function() {
             dishListService.getDish(req).then(function(data) {
-                console.log(data);
-                console.log(req.headers.page);
                 if (!self.dishes) self.dishes = data;
                 else {
                     data.forEach(function(element) {
-                        self.dishes.push(element);
+                        if (element) self.dishes.push(element);
                     });
                 }
                 req.headers.page++;
