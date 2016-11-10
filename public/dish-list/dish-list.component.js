@@ -6,7 +6,7 @@ factory('dishListService', ['$http', function($http) {
     return {
         getDish: function(req) {
             return $http(req).then(function(response) {
-                return response.data.recipes || response.data;
+                return response.data;
             }, function(err){
                 return err;
             });

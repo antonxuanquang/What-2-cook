@@ -5,32 +5,15 @@ angular
 factory('ingredientListService', ['$http', function($http) {
     
     return {
-        transclude: true,
         getIngredient: function(req) {
             return $http(req).then(function(response) {
-                return response.data.recipes || response.data;
+                return response.data;
             }, function(err){
                 return err;
             });
         }
     }
 }])
-// .component('ingredientList',{
-//     transclude: true,
-//     templateUrl: 'ingredient-list/ingredient-list.template.html',
-//     controller: ['$http', '$attrs', 'ingredientListService',
-//     function IngredientListController($http, $attrs, ingredientListService) {
-//         // console.log('test');
-//         var self = this;
-//         console.log($attrs);
-//         // console.log('this');
-//         self.test = $attrs.ingredientId;
-//         // var req = {
-//         //     method: 'GET',
-//         //     url: 'dish'
-//         // }
-//     }]
-// });
 .directive('ingredientList', ['ingredientListService', '$http', 
     function(ingredientListService, $http) {
     return {
@@ -43,7 +26,8 @@ factory('ingredientListService', ['$http', function($http) {
             }
             if (scope.dish.recipe_id) {
                 ingredientListService.getIngredient(req).then(function(data) {
-                    scope.ingredientList = data.ingredients;
+                    // console.log(data);
+                    scope.ingredientList = data;
                 })
             }
         }
