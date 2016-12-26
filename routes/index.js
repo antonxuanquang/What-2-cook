@@ -8,7 +8,8 @@ var fs = require('fs');
 var path = require('path');
 
 
-var imageFolderURL = "./image/";
+var imageFolderURL = "image/";
+var imageExtension = ".png";
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -22,39 +23,31 @@ router.get('/', function(req, res) {
 	var numberOfDishServed = 5;
 
 	// first way: get data from food2fork API
-	// request(format.formatSearchUrl(config.baseUrl, config.apiKey, query), 
-	// 	function(error, response, body) {
-	// 	// get a request from 
-	// 	if (!error && response.statusCode == 200) {
-	// 		var data = JSON.parse(body);
-	// 		res.json(data.recipes);
-	// 	}
-	// });
+	request(format.formatSearchUrl(config.baseUrl, config.apiKey, query), 
+		function(error, response, body) {
+		// get a request from 
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body);
+			res.json(data.recipes);
+		}
+	});
 	
 	// second way: get data from mongoose db
-	Dishes.find({})
-	.skip(headers.page * numberOfDishServed)
-	.limit(numberOfDishServed)
-	.exec(function (err, data) {
-		res.json(data);
-	});
+	// Dishes.find({})
+	// .skip(headers.page * numberOfDishServed)
+	// .limit(numberOfDishServed)
+	// .exec(function (err, data) {
+	// 	res.json(data);
+
+	// 	data.forEach(function (element) {
+	// 		savePicture(element);
+	// 	});
+	// });
 });
 
 function savePicture(recipe) {
-	fs.stat(imageFolderURL + recipe.recipe_id, function (err, stat) {
-		if (err) return; // file already exist
-		request.get({
-			url: recipe.image_url,
-			encoding: 'binary',
-		}, function(err, resquest, body) {
-			if (!err) {
-				fs.writeFile(imageFolderURL + recipe.recipe_id, body, {flag: 'wx'}, 'binary', function(error) {
-					if (!error) console.log("Save image of dish id", recipe.recipe_id);
-				});
-			}
-		});
-	});
-	
+	request(recipe.image_url)
+	.pipe(fs.createWriteStream("./public/" + imageFolderURL + recipe.recipe_id + imageExtension));
 }
 
 router.get('/:id', function(req, res) {
@@ -77,7 +70,7 @@ router.get('/:id', function(req, res) {
 						savePicture(recipe);
 
 						// change url of the image
-						recipe.image_url = imageFolderURL + recipe.recipe_id;
+						recipe.image_url = imageFolderURL + recipe.recipe_id + imageExtension;
 
 						Dishes.create(recipe, function(err, dish) {
 							if (err) throw err;

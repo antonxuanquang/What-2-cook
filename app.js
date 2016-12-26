@@ -22,7 +22,7 @@ var users = require('./routes/users');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'public'));
+// app.set('views', path.join(__dirname, 'public'));
 // app.set('view engine', 'jade');
 
 app.use(favicon());
@@ -31,15 +31,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/image', express.static(path.join(__dirname, 'image')));
+
 
 app.use('/dish', dishRouter);
 app.use('/users', users);
 
 
-// the first time an user getting to the website
-app.get('*', function(req, res) {
-    res.sendFile('.public/index.html');
-});
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
